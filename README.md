@@ -1,7 +1,7 @@
 # fitorbit
 Program to fit binary pulsar orbits
 
-This software was orignially written by Prof. Andrew Lyne (andrew.lyne@manchester.ac.uk) and is the owner. There has been minor contributions from Dr. Paulo Freire, Dr. Alessandro Ridolfi and me. 
+This software was orignially written by Prof. Andrew Lyne (andrew.lyne@manchester.ac.uk) and is the owner. There have been minor contributions from Dr. Paulo Freire, Dr. Alessandro Ridolfi and me. 
 
 # Installation
 
