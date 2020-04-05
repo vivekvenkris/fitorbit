@@ -1,0 +1,10 @@
+C declarations for common blocks to make commands reentrant
+C RETCMD is the command to execute once other commands have been exhausted.
+C SCMDA is the command that should be executed before returning to the
+C       command specified in RETCMD
+C REECNT is the 1+ the number of times that SCMDA should be executed. Note that
+C       it should be set to zero if no commands are to be executed.
+      INTEGER REECNT
+      CHARACTER*132 SCMDA, RETCMD
+      COMMON/REECI/ REECNT
+      COMMON/REECC/ SCMDA, RETCMD

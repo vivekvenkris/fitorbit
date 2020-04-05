@@ -1,0 +1,78 @@
+*DECK SHOLST
+C
+C **********************************************************************
+      SUBROUTINE SHOLST ( LIST, TITLE )
+C **********************************************************************
+C
+C PRODUCES A MONITOR DISPLAY THE LIST OF STRINGS, LIST TERMINATED
+C     BY AN EMPTY STRING, ON LOGICAL UNIT LU,
+C     PRECEDED BY THE TITLE, TITLE.
+C
+      PARAMETER ( LENBUF=80 )
+      CHARACTER*(*) LIST(*),TITLE,OUTBUF*(LENBUF+1)
+C
+C     CLEAR THE BUFFER AND COUNTERS. IPNT POINTS TO THE POSITION
+C     FOR THE NEXT ITEM TO BE ADDED TO OUTBUF.
+C
+      I = 0
+      IOUT = 0
+      OUTBUF = ' '
+      IPNT = 0
+C
+C     LABEL 10 IS THE START OF THE DISPLAY LOOP.
+C
+   10 CONTINUE
+         I = I+1
+C
+C        EMPTY STRING INDICATES THE END OF THE LIST.
+C
+         IF ( LIST(I).EQ.' ' ) GOTO 20
+C
+C        IF THE STRING IS '*', THEN IGNORE IT.
+C
+         IF ( LIST(I).NE.'*' ) THEN
+C
+C           COUNT THE STRING.
+C
+            IOUT = IOUT+1
+C
+C           IF FIRST STRING, WRITE LIST TITLE.
+C
+            IF ( IOUT.EQ.1 ) THEN
+               CALL OUTMON (' '//TITLE)
+               CALL OUTMON (' ')
+            ENDIF
+C
+C           IF THERE IS INSUFFICIENT SPACE IN THE BUFFER,
+C           WRITE THE BUFFER AND CLEAR IT.
+C
+            IF ( LENBUF-IPNT.LT.MIN(LENBUF,LENGTH(LIST(I))) ) THEN
+               CALL OUTMON (OUTBUF)
+               OUTBUF = ' '
+               IPNT = 0
+            ENDIF
+C
+C           ADD THE LIST ITEM TO THE BUFFER, UPDATING THE POINTER.
+C
+            OUTBUF(IPNT+2:) = LIST(I)
+            IPNT = 10*INT(LENGTH(OUTBUF)/10.0+0.99)
+         ENDIF
+C
+C     LOOP.
+C
+      GOTO 10
+C
+C     LABEL 20 IS THE EXIT POINT FROM THE DISPLAY LOOP.
+C
+   20 CONTINUE
+C
+C     WRITE REMAINING BUFFER CONTENTS, IF ANY.
+C
+      IF ( MOD(IOUT,8).NE.0 ) CALL OUTMON (OUTBUF)
+      CALL OUTMON (' ')
+C
+      RETURN
+C
+C END OF SUBROUTINE SHOLST.
+C
+      END

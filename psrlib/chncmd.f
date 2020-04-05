@@ -1,0 +1,169 @@
+*DECK CHNCMD
+C
+C **********************************************************************
+      SUBROUTINE CHNCMD ( CMD, NCMD, ICMD, ICH, NICH, MAXCHAN, IFAIL )
+C **********************************************************************
+C
+C INTERPRETS A CHANNEL SPECIFIER CONTAINED IN THE ARRAY 
+C     CMD(ICMD):CMD(NCMD), RETURNING THE NUMBERS OF THE NICH CHANNELS 
+C     IN ICH(NICH).
+C THE CHANNEL SPECIFIER MAY BE ONE OF:
+C           CHANNEL  I
+C           CHANNELS I AND J
+C           CHANNELS I TO J.
+C CMD IS UPDATED SO THAT ABBREVIATIONS ARE RETURNED IN THEIR FULL
+C     FORM FOR DISPLAY PURPOSES.
+C MAXCHAN SPECIFIES THE MAXIMUM ALLOWABLE CHANNEL NUMBER,
+C     1 IS THE MINIMUM.
+C
+C IFAIL IS ZERO UNLESS AN ERROR WAS DETECTED.
+C
+c Mod: 10/03/2006 Correct data types in pserr call
+      LOGICAL COMSTR,PARINT,PAIR
+      CHARACTER*(*) CMD(*)
+      DIMENSION ICH(*)
+C
+C     CLEAR THE ERROR FLAG AND THE NUMBER OF CHANNELS
+C
+      IFAIL = 0
+      NICH = 0
+C
+C     CHECK THAT PARAMETERS HAVE BEEN SUPPLIED.
+C
+      IF ( ICMD.GT.NCMD ) THEN
+C
+C        NO COMMANDS, RETURN WITHOUT ERROR.
+C
+         RETURN
+      ENDIF
+C
+C     FIRST WORD SHOULD BE 'CHANNELS'.
+C
+      IF ( .NOT.COMSTR('channels',CMD(ICMD))) THEN
+C
+C        NO CHANNEL COMMAND FOUND, RETURN WITHOUT ERROR.
+C
+         RETURN
+      ENDIF
+      CMD(ICMD) = 'channel'
+      ICMDCH = ICM
+      ICMD = ICMD+1
+C
+C     LOOK FOR THE FIRST CHANNEL NUMBER.
+C
+      IF ( ICMD.GT.NCMD ) THEN
+C
+C        INSUFFICIENT COMMANDS.
+C
+         IFAIL = 23
+c         CALL PSRERR ('CHNCMD',IFAIL,0,0.0,' ')
+         RETURN
+      ENDIF
+C
+C     EXAMINE THE CHANNEL NUMBER.
+C
+      IF ( .NOT.PARINT(CMD(ICMD),I1)) THEN
+         IFAIL = 45
+         CALL PSRERR ('CHNCMD',IFAIL,0,0.,CMD(ICMD))
+         RETURN
+      ENDIF
+C
+C     CHECK THE CHANNEL NUMBER.
+C
+      IF ( I1.LE.0.OR.I1.GT.MAXCHAN ) THEN
+         IFAIL = 40
+         CALL PSRERR ('CHNCMD',IFAIL,I1,0.,'channel number')
+         RETURN
+      ENDIF
+      ICMD = ICMD+1
+C
+C     SET THE CHANNEL LIST.
+C
+      NICH = 1
+      ICH(1) = I1
+C
+C     IF THERE ARE NO MORE PARAMETERS, RETURN.
+C
+      IF ( ICMD.GT.NCMD ) THEN
+         RETURN
+      ENDIF
+C
+C     LOOK FOR 'AND' OR 'TO'.
+C
+      IF ( COMSTR('and',CMD(ICMD)) ) THEN
+         CMD(ICMD) = 'and'
+         ICMD = ICMD+1
+         PAIR = .TRUE.
+      ELSEIF ( COMSTR('to',CMD(ICMD)) ) THEN
+         CMD(ICMD) = 'to'
+         ICMD = ICMD+1
+         PAIR = .FALSE.
+      ELSE
+C
+C        END OF CHANNEL SPECIFIER, RETURN.
+C
+         RETURN
+      ENDIF
+C
+C     LOOK FOR ANOTHER CHANNEL NUMBER.
+C
+      IF ( ICMD.GT.NCMD ) THEN
+         IFAIL = 23
+         CALL PSRERR ('CHNCMD',IFAIL,0,0.0,' ')
+         RETURN
+      ENDIF
+C
+C     EXAMINE THE CHANNEL NUMBER.
+C
+      IF ( .NOT.PARINT(CMD(ICMD),I2)) THEN
+         IFAIL = 45
+         CALL PSRERR ('CHNCMD',IFAIL,0,0.,CMD(ICMD))
+         RETURN
+      ENDIF
+C
+C     CHECK THE CHANNEL NUMBER.
+C
+      IF ( I2.LE.0.OR.I2.GT.MAXCHAN ) THEN
+         IFAIL = 40
+         CALL PSRERR ('CHNCMD',IFAIL,I2,0.,'channel number')
+         RETURN
+      ENDIF
+      ICMD = ICMD+1
+C
+C     SET THE CHANNEL PAIR OR CHANNEL RANGE.
+C
+      IF ( PAIR ) THEN
+C
+C        SET THE SECOND CHANNEL.
+C
+         NICH = 2
+         ICH(2) = I2
+      ELSE
+C
+C        CHECK THAT THE SECOND CHANNEL IS GREATER THAN THE FIRST.
+C
+         IF ( I2.LT.I1 ) THEN
+            IFAIL = 24
+            CALL PSRERR ('CHNCMD',IFAIL,0,0.0,' ')
+            RETURN
+         ENDIF
+C
+C        SET THE CHANNEL LIST.
+C
+         NICH = I2-I1+1
+         DO 20 I = 1,NICH
+            ICH(I) = I1+I-1
+   20    CONTINUE
+      ENDIF
+C
+      IF ( NICH.GT.1 ) THEN
+         CMD(ICMDCH) = 'channels'
+      ENDIF
+C
+      RETURN
+C
+C END OF SUBROUTINE CHNCMD
+C
+      END
+
+

@@ -1,0 +1,22 @@
+*DECK MAXVEC
+C
+C **************************************************************
+      INTEGER FUNCTION MAXVEC ( )
+C **************************************************************
+C
+C RETURNS THE MAXIMUM VECTOR LENGTH TAHT MAY BE ACCOMODATED BY
+C     THE CURRENT PROCESSOR.
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT.
+C
+C VAX-11 FORTRAN VERSION.
+C
+C     THERE IS NO VECTOR PROCESSOR.
+C
+      PARAMETER ( MVEC=0 )
+      MAXVEC=MVEC
+      RETURN
+C
+C END OF INTEGER FUNCTION MAXVEC.
+C
+      END

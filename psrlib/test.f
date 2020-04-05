@@ -1,0 +1,43 @@
+C ****************************************************************
+      CHARACTER*(*) FUNCTION CJTIME ( DJT, IDEC )
+C ****************************************************************
+C
+C FORMS A CHARACTER STRING FROM THE MODIFIED JULIAN TIME
+C     ( JULIAN DATE - 2400000.5 + UT AS FRACTION OF A DAY )
+C     IN DJT WITH IDEC DECIMAL PLACES OF SECONDS
+C     FORMAT IS 'YY/MM/DD HH:MM:SS.SS...SS'
+C
+      DOUBLE PRECISION DJT
+      CHARACTER CDATE*8,CRTIMS*20
+C
+      CJTIME = ' '
+C
+C     IF NEGATIVE, THE JULIAN TIME IS REGARDED AS NOT SET
+C
+      IF ( DJT.LT.0.0 ) THEN
+         CJTIME = '<none>'
+         RETURN
+      ENDIF
+C
+C     OBTAIN DATE FROM JULIAN TIME
+C
+      IDATE = JDDATE(DBLE(INT(DJT)))
+C
+C     ADD TO CHARACTER BUFFER
+C
+      IF ( IDATE.GT.0 ) THEN
+         CJTIME = CDATE(IDATE)
+         K = 10
+      ELSE
+         K = 1
+      ENDIF
+C
+C     ADD TIME PART
+C
+      CJTIME(K:) = CRTIMS( MOD(DJT,1.D0)*86400.0,IDEC )
+C
+      RETURN
+C
+C END OF CHARACTER FUNCTION CJTIME
+C
+      END

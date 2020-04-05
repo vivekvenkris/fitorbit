@@ -1,0 +1,39 @@
+SLALIB_Version_2.4-5                                   Expiry 31 March 2001
+
+The latest releases of SLALIB include the following changes:
+
+*  Several observatory sites have been added to the sla_OBS routine:  CFHT,
+   Keck 2, Gemini North and South, FCRAO, IRTF, CSO and the four VLTs.  The
+   coordinates for all the Mauna Kea sites have been updated in accordance
+   with recent aerial photography results made available by the Institute
+   for Astronomy, University of Hawaii.
+
+*  A bug in sla_DAT has been corrected.  It used to give incorrect
+   results for dates in the first 54 days of 1972.
+
+*  There are new routines for generating permutations (sla_PERMUT) and
+   combinations (sla_COMBN).
+ 
+*  There was a bug in sla_PM for star data using Julian epochs (i.e. all
+   modern data).  The treatment of radial velocity was correct for
+   Besselian epochs but wrong for Julian epochs.  This had only a tiny
+   effect on a handful of nearby stars.  The new version assumes Julian
+   epochs when interpreting the radial velocity.  If the data are old-
+   style, using Besselian epochs, you have to scale the radial velocity
+   by 365.2422/365.25 first.
+
+*  There was a bug in sla_RCC which meant the diurnal terms were being
+   calculated incorrectly, leading to errors of up to about 4 microsec.
+
+*  Two new routines have been added, sla_DSEPV and sla_SEPV.  These are
+   analogues of the existing routines sla_DSEP and sla_SEP, but accept
+   [x,y,z] vectors instead of spherical coordinates.
+   
+*  The sla_UNPCD routine used to be approximate but now is rigorous.
+
+ P.T.Wallace
+ 4 September 2000
+
+ ptw@star.rl.ac.uk
+ +44-1235-44-5372
+--------------------------------------------------------------------------

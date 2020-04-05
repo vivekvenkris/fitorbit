@@ -1,0 +1,18 @@
+*DECK IPAGFLT
+C
+C ********************************************************************
+      INTEGER FUNCTION IPAGFLT ( INIT )
+C ********************************************************************
+C
+C INIT = 0 INITIALISES ROUTINE.
+C INIT = 1 RETURNS NUMBER OF PAGE FAULTS SINCE INITIALISATION.
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT.
+C
+C SUN FORTRAN VERSION (DUMMY ROUTINE).
+C
+      IPAGFLT=0
+C
+C END OF INTEGER FUNCTION IPAGFLT.
+C
+      END

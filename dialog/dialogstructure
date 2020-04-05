@@ -1,0 +1,185 @@
+c                                               in interfacebuilder ref by
+c  widget types   ste   1 static text                   s
+c                 vte   2 variable text                 v
+c                 rad   3 radio control                 r
+c                 che   4 check                         c
+c                 int   5 integer                       i
+c                 rea   6 real                          f
+c                 dou   7 double precision              d
+c                 edi   8 editable                      e
+c                 but   9 buttons                       b
+c                 plo   10 plot                         p
+c                 out   11 outlines                     o
+c                 new   12 new radio control            n
+c
+c Paul Harrison 19-MAR-1991 added type element to the double structure
+c type = 0 ordinary double
+c type = 1 position (in seconds)
+c type = 3 date/time (julian day)
+
+C max length of widget labels
+      integer dia_max_wlab
+      parameter(dia_max_wlab=32)
+C max length of widget texts
+      integer dia_max_tlab
+      parameter(dia_max_tlab=70)
+C max length of numeric text lebels
+      integer dia_max_vlab
+      parameter(dia_max_vlab=24)
+C max length of editable text lebels
+      integer dia_max_elab
+      parameter(dia_max_elab=50)
+c Dialog II 
+c max length of variable name = 32
+      integer dia_max_var
+      parameter(dia_max_var=32)
+
+        type dstatictex
+            real x,y
+            character(LEN=dia_max_tlab) label
+            integer label_len
+        end type
+        type dvartex
+            real x,y
+            character*(dia_max_tlab) label
+            integer label_len
+            integer maxlen
+	    character*(dia_max_var) name
+	    integer namelen
+	    integer group
+        end type
+        type dradio
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            logical value
+	    character*(dia_max_var) name
+	    integer namelen
+            integer group
+        end type
+        type dcheck
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            logical value
+	    character*(dia_max_var) name
+	    integer namelen
+	    integer group
+        end type
+        type dinteger
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            integer value
+            integer maxlen
+            character*(dia_max_vlab) str_val
+            integer str_len	    
+	    character*(dia_max_var) name
+	    integer namelen
+	    integer group
+        end type
+        type dreal
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            real value
+            integer maxlen
+            character*(dia_max_vlab) str_val
+            integer str_len
+	    character*(dia_max_var) name
+	    integer namelen
+            integer group
+        end type
+        type ddouble
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            real*8 value
+            integer maxlen
+            character*(dia_max_vlab) str_val
+            integer str_len
+            integer type
+	    character*(dia_max_var) name
+	    integer namelen
+            integer group
+        end type
+        type dedit
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            character*(dia_max_elab) value
+            integer maxlen
+            integer str_len
+	    character*(dia_max_var) name
+	    integer namelen
+            integer group
+        end type
+        type dbutton
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+        end type
+        type doutline
+            real x1,x2,y1,y2
+            integer colour
+            integer linewidth
+        end type
+        type dplot
+            real x1,x2,y1,y2,vx1,vx2,vy1,vy2
+        end type
+        type dnewradio
+            real x,y
+            character*(dia_max_wlab) label
+            integer label_len
+            logical value
+	    character*(dia_max_var) name
+	    integer namelen
+            integer group
+        end type
+
+        integer dial_max
+        parameter(dial_max = 99)
+        type dlg
+	    character*32 name
+	    integer namelen
+            integer number,ndste,ndvte,ndrad,ndche,ndint,ndrea,nddou
+            integer ndedi,ndout,ndplo,ndbut,ndnew
+            real dxmin,dxmax,dymin,dymax
+	    real pxmin,pxmax,pymin,pymax
+            type(dstatictex) dste(dial_max)
+            type(dvartex) dvte(dial_max)
+            type(dradio) drad(dial_max)
+            type(dcheck) dche(dial_max)
+            type(dinteger) dint(dial_max)
+            type(dreal) drea(dial_max)
+            type(ddouble) ddou(dial_max)
+            type(dedit) dedi(dial_max)
+            type(dbutton) dbut(dial_max)
+            type(dplot) dplo(dial_max)
+            type(doutline) dout(dial_max)
+	    type(dnewradio) dnew(dial_max)
+        end type
+
+c declare using....
+c       type(dlg) dialog
+c
+c ---------------------------------------------------------------
+c
+c for bad PGPLOT drivers, allow user to rescale the PGPLOT character
+c height to work on their driver.
+c
+	real actual_pgch
+	common/actual/actual_pgch
+c
+c	default widget colours  (DRL 23/12/92)
+c	can now customise by placing a .dialog
+c	file in HOME directory with a 2 free lines
+c	then the values of butcol checol radcol outcol
+c	in that order. (free format) -- the default
+c	values are in a data statement in the new
+c	routine get_setup.
+c
+	integer butcol, checol, radcol, outcol
+	common/widget_colours/ butcol, checol, radcol, outcol
+
+

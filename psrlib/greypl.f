@@ -1,0 +1,75 @@
+*DECK GREYPL
+C
+C
+C *********************************************************
+      CHARACTER*(*) FUNCTION GREYPL ( A, N, NG, SCMIN, SCMAX )
+C *********************************************************
+C
+C PLOTS THE DATA A(N) AVERAGED OVER NG POINTS IN THE CHARACTER
+C ARRAY GREYPL REPRESENTING INTENSITY BY CHARACTERS OF
+C ROUGHLY INCREASING PRINT DENSITY
+C THE SCALING IS CONTROLLED BY SCMIN AND SCMAX, SCMIN IS
+C THE LEVEL FOR THE FAINTEST CHARACTER AND SCMAX FOR THE
+C DARKEST
+C IF SCMIN.EQ.SCMAX THEN THE SCALES ARE DETERMINED
+C AUTOMATICALLY
+C
+      DIMENSION A(*)
+      CHARACTER*10 CHARS 
+      DATA CHARS / ' .,:;-=*$@' /
+C
+C NP IS THE NUMBER OF POINTS TO BE PLOTTED
+C
+      NP = N/NG
+C
+C IF SCALES ARE EQUAL, PERFORM AUTO-SCALING
+C
+      IF ( SCMIN.EQ.SCMAX ) THEN
+         SUM = 0.0
+         SUMSQ = 0.0
+         DO 10 I=1,NP
+            D = 0.0
+            DO 20 J=1,NG
+               D = D+A((I-1)*NG+J) - A(1)
+   20       CONTINUE
+            SUM = SUM+D
+            SUMSQ = SUMSQ+D*D
+   10    CONTINUE
+         RMS = SQRT((SUMSQ-SUM*SUM/NP)/(NP-1.0))
+         IF ( RMS.LE.0.0 ) RMS = 1.0
+         SC1 = RMS/5.
+         SC2 = RMS*2.
+         DC=SUM/NP + A(1)*NG
+      ELSE
+         DC = 0.0
+         SC1 = SCMIN
+         SC2 = SCMAX
+      ENDIF
+C
+C
+C PLOT THE ARRAY
+C
+      DO 30 I=1,NP
+         D = 0.0
+         DO 40 J=1,NG
+            D = D+A((I-1)*NG+J)
+   40    CONTINUE
+         ICHAR = NINT((D-DC-SC1)/(SC2-SC1)*9)+1
+         ICHAR = MAX(1,MIN(10,ICHAR))
+         GREYPL(I+1:I+1) = CHARS(ICHAR:ICHAR)
+   30 CONTINUE
+C
+C CLEAR THE REMAINDER OF THE ARRAY AND SET BOUNDS.
+C
+      DO 50 I=NP+3,LEN(GREYPL)
+         GREYPL(I:I) = ' '
+   50 CONTINUE
+      GREYPL(1:1) = 'I'
+      GREYPL(NP+2:NP+2) = 'I'
+C
+      RETURN
+C
+C END OF CHARACTER FUNCTION GREYPL
+C
+      END
+C

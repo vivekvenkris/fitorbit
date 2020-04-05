@@ -1,0 +1,14 @@
+C*******************************************************************
+C
+      SUBROUTINE PTOF(P,PDOT,PDDOT,F,FDOT,FDDOT)
+C
+C SUBROUTINE TO CONVERT FROM PERIOD AND ITS DERIVATIVES TO FREQUENCY
+C AND ITS DERIVATIVES OR VICE-VERSA.
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      F = 1./P
+      FDOT = -PDOT/P**2
+      FDDOT=  2.*PDOT**2/P**3 - PDDOT/P**2
+      END
+C

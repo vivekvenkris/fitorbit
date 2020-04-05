@@ -1,0 +1,18 @@
+# Maketop
+# Don't change any of these lines!
+
+FC = gfortran
+FTORBIT=/fred/oz002/vvenkatr/software/fitorbit_Ridolfi_Feb2020
+INC = ${FTORBIT}/include
+FFLAGS= -g  -I${INC} -I${FTORBIT}/dialog -static -finit-local-zero -fbounds-check
+CFLAGS= -g -I ./ -I/usr/local/include 
+
+LIBDIR=${FTORBIT}/lib
+LDFLAGS= -L/usr/local/lib  -lm
+BINL= ${FTORBIT}/bin
+
+PGPLOTDIR = ${PGPLOT_DIR}
+
+# I found that I could link to an installed pgplot (on fedora14)
+LPGPLOT = -L${PGPLOTDIR} -l pgplot -lX11 -lpng
+

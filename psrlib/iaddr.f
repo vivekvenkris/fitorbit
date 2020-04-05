@@ -1,0 +1,20 @@
+*DECK IADDR
+C
+C **************************************************************
+      INTEGER FUNCTION IADDR ( A )
+C **************************************************************
+C
+C RETURNS THE ADDRESS OF THE VARIABLE PASSED IN A.
+C A MAY BE A VARIABLE OR CONSTANT OF ANY TYPE.
+C IF A CONSTANT IS PASSED THEN ZERO IS RETURNED.
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT
+C
+C VAX-11 FORTRAN VERSION
+C
+      IADDR = %LOC(A)
+      RETURN
+C
+C END OF INTEGER FUNCTION IADDR
+C
+      END

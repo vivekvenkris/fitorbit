@@ -1,0 +1,7 @@
+      SUBROUTINE RMPLUS(STR)
+      CHARACTER*(*) STR
+      INTEGER IPOS
+
+c      IPOS=INDEX(STR,'+')
+c     IF(IPOS.NE.0) STR(IPOS:IPOS)='_'
+      END

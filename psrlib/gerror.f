@@ -1,0 +1,2 @@
+      character function gerror()
+      end

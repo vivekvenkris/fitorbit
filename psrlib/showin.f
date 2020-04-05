@@ -1,0 +1,58 @@
+*DECK SHOWIN
+C
+C
+C ****************************************************************
+      SUBROUTINE SHOWIN ( LU )
+C ****************************************************************
+C
+C PRODUCES A DISPLAY OF THE HEADER INFO FOR THE CURRENT
+C INPUT DATA BLOCK ON LOGICAL UNIT LU.
+C
+      INCLUDE 'PSRLIB.DEF'
+      INCLUDE 'PSRDAT.DEF'
+      CHARACTER*8 CDATE,CPSRID,CUT,CID,CDTE,CDTYPE
+      CHARACTER*13 CDEMRA,CDEMDEC,CRA,CDEC
+      CHARACTER*15 CRTIMS,CUTS,CUTF
+      CHARACTER*50 CPOSTN
+C
+      CID  = CPSRID(DEMRA,DEMDEC)
+      CDTE = CDATE(JDDATE(EPOCH))
+      CUT  = CRTIMS(DBLE(UTS),0)
+      CUTS = CRTIMS(DBLE(UTS),6)
+      CUTF = CRTIMS(DBLE(UTF),0)
+      CDEMRA  = CPOSTN(DBLE(DEMRA*240.),3,0)
+      CDEMDEC = CPOSTN(DBLE(DEMDEC*3600.),3,0)
+      CRA     = CPOSTN(DBLE(RA*240.),3,0)
+      CDEC    = CPOSTN(DBLE(DEC*3600.),3,0)
+C
+C     OUTPUT THE HEADER
+C
+      WRITE (LU,500) CUT,CDTE,PULSENO,CID,CDTYPE()
+     &       ,CUTS,CDEMRA
+     &       ,CDEMDEC,PB,PBEPOCH,PBDOT,DELAY,TBIN,DM,SBS,MEANANOM
+     &       ,POBS,EPOCH,PDOT,CUTF,PA,CRA,CDEC,LONG,LAT
+     &       ,AZ,EL,(CLOCK(I),I=1,5),OBSVERS,NBIN
+     &       ,NCH
+C
+C     OUTPUT A LINE FOR EACH OF THE ORIGINAL CHANNELS
+C
+      DO 10 I=1,NCORIG
+         IF ( ICCURR(I).LE.0 ) THEN
+            WRITE (LU,510) I
+         ELSE
+            WRITE (LU,520) I,ICCURR(I),NP(I),DCLEV(I),SIGMA(I),FOBS(I),DFAC(I)
+         ENDIF
+   10 CONTINUE
+C
+      RETURN
+C
+  500 FORMAT ( //1X,2A9,I10,2A9
+     &        ,//1X,A15,1X,A13,1X,A13,1X,F12.9,F11.1,F12.6
+     &        ,/1X,F12.6,F12.6,F9.3,I5,F6.2,F12.9,F11.1,F12.6
+     &        ,/1X,A8,1X,F6.2,1X,A13,1X,A13,F9.2,F9.2,F9.2,F9.2
+     &        ,/1X,5F12.0
+     &        ,/1X,3I12,// )
+  510 FORMAT ( 1X,I2,':    Deleted' )
+  520 FORMAT ( 1X,I2,':',I3,I6,F8.0,F8.3,F8.3,F8.3 )
+C
+      END

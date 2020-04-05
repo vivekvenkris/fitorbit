@@ -1,0 +1,32 @@
+*DECK CFILTYP
+C
+C **************************************************************
+      CHARACTER*3 FUNCTION CFILTYP ( FILNAM )
+C **************************************************************
+C
+C RETURNS THE FILE TYPE OF FILENAME FILNAM.
+C
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT
+C
+C VAX-11 FORTRAN VERSION
+C
+      CHARACTER*(*) FILNAM
+C
+C     IF FILENAME IS BLANK, RETURN
+C
+      CFILTYP = ' '
+      IF ( FILNAM.EQ.' '.OR.FILNAM(1:1).EQ.'<'
+     &     .OR.FILNAM.EQ.'VDU' ) RETURN
+C
+C     LOOK FOR A '.' THAT COMES AFTER A POSSIBLE ']'
+C
+      IUIC = INDEX(FILNAM,']')
+      IDOT = INDEX(FILNAM(IUIC+1:),'.')
+      IF (IDOT.GE.0) CFILTYP = FILNAM(IDOT+1:IDOT+3)
+C
+      RETURN
+C
+C END OF CHARACTER FUNCTION CFILTYP
+C
+      END

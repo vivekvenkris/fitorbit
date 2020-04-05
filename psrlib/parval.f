@@ -1,0 +1,44 @@
+*DECK PARVAL
+C
+C
+C **************************************************************
+      SUBROUTINE PARVAL ( STRING1, STRING2, VAL, ERR, NERR )
+C **************************************************************
+C
+C READS A VALUE FROM STRING1 AND ITS ERROR FROM STRING2
+C IF THE VALUE IS MISSING VAL IS SET TO 0.0 AND ERR TO -1.0
+C IF THE ERROR IS MISSING ERR IS SET TO 0.0
+C
+C VALUES ARE INTERPRETED AS DOUBLE PRECISION BY PARDBL
+C
+C IF NERR IS .GT. 0 AND AN ERROR OCCURS, ERROR NERR IS CALLED
+C
+c Mod 10/03/2006 Correct data type in call to pserr
+c
+      CHARACTER*(*) STRING1,STRING2
+      DOUBLE PRECISION VAL,ERR
+C
+      LOGICAL PARDBL,PAR1,PAR2
+C
+      PAR1 = PARDBL(STRING1,VAL)
+      IF ( .NOT.PAR1 ) THEN
+         IF ( STRING1.EQ.' ' ) PAR1 = .TRUE.
+         VAL = 0.0
+         ERR = -1.0
+      ELSE
+         PAR2 = PARDBL(STRING2,ERR)
+         IF ( .NOT.PAR2 ) THEN
+            IF ( STRING2.EQ.' ' ) PAR2 = .TRUE.
+            ERR = 0.0
+         ENDIF
+      ENDIF
+C
+      IF ( .NOT.PAR1.OR..NOT.PAR2.AND.NERR.GT.0 ) THEN
+         CALL PSRERR ( 'PARVAL',NERR,0,0.,STRING1//STRING2 )
+      ENDIF
+C
+      RETURN
+C
+C END OF SUBROUTINE PARVAL
+C
+      END

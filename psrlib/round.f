@@ -1,0 +1,18 @@
+cDECK ROUND
+c
+c
+c
+c
+c THIS ROUTINE RETURNS THE VALUE OF RVAL ROUNDED TO THREE DECIMAL PLACES
+c IN THE SAME WAY AS THE FORTRAN OUTPUT ROUTINES.
+c     VERSION 2.0   25JAN83
+c
+c ROUND THE VALUE TO THREE DECIMAL PLACES.
+c
+      function round(rval)
+      round = roundn(rval,3)
+c
+c END OF REAL FUNCTION ROUND.
+c
+      return 
+      end

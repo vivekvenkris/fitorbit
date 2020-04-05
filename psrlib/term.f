@@ -1,0 +1,53 @@
+*DECK TERM
+C
+C
+C **********************************************************************
+      CHARACTER*(*) FUNCTION TERM ()
+C **********************************************************************
+C
+C RETURN THE TERMINAL NAME UNDER WHICH THE CURRENT PROCESS IS RUNNING.
+C IF THERE IS NONE, E.G. FOR A BATCH PROCESS OR SUBPROCESS, AN EMPTY
+C     STRING IS RETURNED.
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT.
+C
+C VAX-11 FORTRAN VERSION.
+C
+      INTEGER*4 ITEM(4),BUFLEN
+      INTEGER*2 WORD(2),SYS$GETJPI,IFAIL
+      EQUIVALENCE (ITEM(1),WORD(1))
+      EXTERNAL JPI$_TERMINAL,SS$_NORMAL
+C
+C     SET UP ITEM LIST.
+C
+      WORD(1)=LEN(TERM)
+      WORD(2)=%LOC(JPI$_TERMINAL)
+      ITEM(2)=%LOC(TERM)
+      ITEM(3)=%LOC(BUFLEN)
+      ITEM(4)=0
+C
+C     GET TERMINAL NAME.
+C
+      IFAIL=SYS$GETJPI(,,,ITEM,,,)
+C
+C     PAD NAME WITH SPACES.
+C
+      IF(IFAIL.EQ.%LOC(SS$_NORMAL)) THEN
+        TERM(BUFLEN+1:)=' '
+      ELSE
+        TERM=' '
+      ENDIF
+C
+      RETURN
+C
+C END OF CHARACTER FUNCTION TERM.
+C
+      END
+
+
+
+
+
+
+
+

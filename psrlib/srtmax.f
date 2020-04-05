@@ -1,0 +1,25 @@
+*DECK SRTMAX
+C
+C **************************************************************
+      BYTE FUNCTION SRTMAX ( )
+C **************************************************************
+C
+C RETURNS THE MAXIMUM POSSIBLE VALUE FOR A SHORT VARIABLE.
+C THE EXACT MEANING OF 'SHORT' DEPENDS ON THE IMPLEMENTATION.
+C
+C THIS ROUTINE IS INSTALLATION DEPENDENT.
+C
+C VAX-11 FORTRAN VERSION - BYTE ( 8-BIT ) VARIABLE.
+C
+      BYTE MAXB
+      PARAMETER ( MAXB=127 )
+C
+C     RETURN THE VALUE.
+C
+      SRTMAX = MAXB
+C
+      RETURN
+C
+C END OF BYTE FUNCTION SRTMAX.
+C
+      END

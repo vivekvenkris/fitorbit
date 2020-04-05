@@ -1,0 +1,30 @@
+Package : SLALIB
+Version : V2.4-5
+Library : V1.6
+
+Built by: caj on node oddjob
+On      : Mon Jan  5 11:57:28 GMT 2009
+
+Machine : sun4u running SunOS Generic (release 5.9)
+
+make macros:
+
+   SYSTEM  : sun4_Solaris
+
+   EXPORT  : .
+   INSTALL : /scratch/oddjob_1/caj/portatime/lib
+   STARLINK: /star
+
+   AR_IN   : ar -r
+   BLD_SHR : f() ld -G -z text -o $1 $2; f
+   CC      : cc
+   CFLAGS  : -I/star/include -O -K PIC
+   FC      : f77
+   FFLAGS  : -O -PIC
+   LINK    : ln -s
+   RANLIB  : echo ranlib
+   SHARE   : .so
+   SOURCE_VARIANT: sun4_Solaris
+   TAR_IN  : tar -cvhf
+   TAR_OUT : tar -xf
+
