@@ -17,5 +17,7 @@ make
 cd ${fitorbit_dir}/psrlib
 make
 
+cp ${fitorbit_dir}/dialog/libgialog.a ${fitorbit_dir}/slalib/libsla.a ${fitorbit_dir}/psrlib/libpsr.a ${fitorbit_dir}/lib/
+
 cd ${fitorbit_dir}/src
 make && echo && echo "fitorbit successfully installed in "${fitorbit_dir}/bin." Please add this directory to your PATH environment variable."
