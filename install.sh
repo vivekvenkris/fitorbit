@@ -6,6 +6,8 @@ echo "Fitorbit will be installed in "$fitorbit_dir
 sed -i 's+FTORBIT=fitorbit_root_directory+FTORBIT='${fitorbit_dir}'+g' ${fitorbit_dir}/Makefile_Custom
 
 
+mkdir -p ${fitorbit_dir}/bin ${fitorbit_dir}/lib
+
 cd ${fitorbit_dir}/dialog
 make
 
