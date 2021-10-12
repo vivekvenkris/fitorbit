@@ -13,5 +13,11 @@ The package already includes the `dialog` and `sla` libraries that are needed. I
 
 fitorbit also depends on `pgplot` and its corresponding environment variables: `PGPLOT_DIR`, `PGPLOT_DEV` and `PGPLOT_FONT` should be set before installation.
 
+# Usage
+
+1. Set the environment variable `fitorbitdir` to point to the source directory,  so something like `export fitorbitdir="/home/psr/software/fitorbit/src"
+2. Put the ephemeris file (named `NAME.eph`) and mod file containing your spin period measurements (named `NAME.mod`) where `NAME` is the same as the directory where you put these
+3. This directory itself needs to go inside another directory named "timing". So your directory structure should be something like `/home/psr/timing/NGC1851D/` containing `NGC1851D.mod` and `NGC1851D.eph`
+4. cd to the directory containing the ephemeris and then run `fitorbit`
 
 
