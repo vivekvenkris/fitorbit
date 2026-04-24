@@ -30,7 +30,7 @@ c Declare variables:
       REAL*8 f0relerr, f1relerr, v0relerr, p1relerr, p0relerr, DBLMIN
 
 c constants
-      include 'PSRMATH.DEF;2'
+      include 'PSRMATH.DEF'
 
 c zero arrays 
       do I = 1, OEPH_MAX
